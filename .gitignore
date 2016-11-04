@@ -1,0 +1,7 @@
+.idea
+*.iml
+*.swp
+node_modules
+*.log
+logs/
+coverage

@@ -1,0 +1,32 @@
+{
+  "name": "sohtu-backend",
+  "version": "0.0.0",
+  "description": "Sohtu-backend",
+  "main": "server",
+  "license": "MIT",
+  "scripts": {
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run",
+    "test": "_mocha --reporter spec",
+    "test-cover": "istanbul cover _mocha -- --compilers jsx:babel-core/register --recursive test/*"
+  },
+  "dependencies": {
+    "bookshelf": "^0.10.2",
+    "boom": "^4.2.0",
+    "hapi": "^15.2.0",
+    "hapi-knex-builder": "^0.4.1",
+    "joi": "^9.2.0",
+    "knex": "^0.12.6",
+    "pg": "^6.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.14",
+    "istanbul": "1.1.0-alpha.1",
+    "mocha": "^3.1.2",
+    "mocha-lcov-reporter": "^1.2.0",
+    "request": "^2.78.0"
+  }
+}
