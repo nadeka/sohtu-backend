@@ -4,5 +4,7 @@
 // this file is checked in server.js at server startup
 
 let mailingLists = require('./mailing-lists');
+let contacts = require('./contacts');
 
 module.exports = [].concat(mailingLists);
+module.exports = [].concat(contacts);
