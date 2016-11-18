@@ -20,7 +20,7 @@ let request = require('request');
 
 describe("Mailing lists", function() {
 
-  // Run migrations and insert seeds before tests
+  // Run migrations and insert seeds before each test
   beforeEach(function(done) {
     bookshelf.knex.migrate.rollback()
       .then(function() {
@@ -34,7 +34,7 @@ describe("Mailing lists", function() {
       });
   });
 
-  // Clean the mailing_lists table after tests
+  // Rollback migrations after each test
   afterEach(function (done) {
     bookshelf.knex.migrate.rollback()
       .then(function() {
