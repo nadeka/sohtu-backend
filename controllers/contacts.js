@@ -23,7 +23,7 @@ module.exports = {
         reply(utils.formatJson('contact', contact));
       })
       .catch(function (err) {
-        reply(Boom.notFound("Contact list not found."));
+        reply(Boom.notFound("Contact not found."));
       });
   },
 

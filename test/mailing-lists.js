@@ -87,7 +87,7 @@ describe("Mailing lists", function() {
       });
     });
 
-    it("returns undefined mailing list and status 404 when id does not exist", function (done) {
+    it("returns undefined mailing list and status 404 when given id does not exist", function (done) {
       let invalidUrl = "http://localhost:8001/mailing-lists/999999";
 
       request.get({uri: invalidUrl, json: true}, function(error, response, body) {
@@ -161,6 +161,30 @@ describe("Mailing lists", function() {
       { mailingList:
         { name: null,
           description: 'hijklmn'
+        }
+      };
+
+      request.post({uri: url, body: invalidPostData, json: true}, function(error, response, body) {
+        let mailingList = body.mailingList;
+        chai.expect(mailingList).to.be.undefined;
+        chai.expect(body.statusCode).to.equal(400);
+
+        request.get({uri: url, json: true}, function(error, response, body) {
+          let mailingLists = body.mailingLists;
+
+          chai.expect(mailingLists.length).to.equal(3);
+
+          mailingLists.forEach(mailingList => validateMailingList(mailingList));
+
+          done();
+        });
+      });
+    });
+
+    it('does not create new mailing list and returns status 400 when description field is missing', function(done) {
+      let invalidPostData =
+      { mailingList:
+        { name: 'abcdefg'
         }
       };
 

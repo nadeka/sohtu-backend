@@ -3,7 +3,7 @@
 var bookshelf = require('../config/bookshelf');
 
 var Contact = bookshelf.Model.extend({
-  tableName: 'contact'
+  tableName: 'contacts'
 });
 
 module.exports = {

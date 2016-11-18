@@ -3,7 +3,7 @@
 let contactsController = require('../controllers/contacts');
 let validators = require('../validators/validators');
 
-// Routes for mailing lists. Handler functions are in the controllers directory
+// Routes for contacts. Handler functions are in the controllers directory
 module.exports = [{
   method: 'GET',
   path: '/contacts',
@@ -12,7 +12,7 @@ module.exports = [{
   }
 }, {
   method: 'GET',
-  path: '/contact/{id}',
+  path: '/contacts/{id}',
   config: {
     handler: contactsController.getContact
   }
@@ -21,6 +21,8 @@ module.exports = [{
   path: '/contacts',
   config: {
     handler: contactsController.createContact,
-    validate: { payload: validators }
+    validate: {
+      payload: validators
+    }
   }
 }];
