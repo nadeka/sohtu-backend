@@ -21,6 +21,8 @@ module.exports = [{
   path: '/mailing-lists',
   config: {
     handler: mailingListController.createMailingList,
-    validate: { payload: validators }
+    validate: {
+      payload: validators
+    }
   }
 }];
