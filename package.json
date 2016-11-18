@@ -9,7 +9,8 @@
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
     "test": "_mocha --reporter spec",
-    "test-cover": "istanbul cover _mocha -- --compilers jsx:babel-core/register --recursive test/*"
+    "test-cover": "istanbul cover _mocha -- --compilers jsx:babel-core/register --recursive test/*",
+    "prestart": "knex migrate:latest && knex seed:run"
   },
   "dependencies": {
     "bookshelf": "^0.10.2",
