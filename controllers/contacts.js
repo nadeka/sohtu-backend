@@ -1,7 +1,7 @@
 'use strict';
 
 let models = require('../models/contact');
-let utils = require('../utils/utils');
+let humps = require('humps');
 
 // Used to return HTTP errors
 //
@@ -12,7 +12,9 @@ module.exports = {
 
   getContacts: function (request, reply) {
     models.Contact.fetchAll().then(function (contacts) {
-      reply(utils.formatJson('contacts', contacts));
+      let camelizedContacts =
+        contacts.toJSON({ omitPivot: true }).map(contact => humps.camelizeKeys(contact));
+      reply(camelizedContacts);
     });
   },
 
@@ -20,7 +22,7 @@ module.exports = {
     new models.Contact({id: request.params.id})
       .fetch({require: true})
       .then(function(contact) {
-        reply(utils.formatJson('contact', contact));
+        reply(humps.camelizeKeys(contact.toJSON({ omitPivot: true })));
       })
       .catch(function (err) {
         reply(Boom.notFound("Contact not found."));
@@ -28,11 +30,18 @@ module.exports = {
   },
 
   createContact: function (request, reply) {
-    request.payload.contact.created_at = new Date();
-    request.payload.contact.updated_at = new Date();
+    let newContact = {
+      first_name: request.payload.firstName,
+      last_name: request.payload.lastName,
+      email: request.payload.email,
+      telephone: request.payload.telephone,
+      gender: request.payload.gender,
+      created_at: new Date(),
+      updated_at: new Date()
+    };
 
-    new models.Contact(request.payload.contact).save().then(function (contact) {
-      reply(utils.formatJson('contact', contact));
+    new models.Contact(newContact).save().then(function (contact) {
+      reply(humps.camelizeKeys(contact.toJSON({ omitPivot: true })));
     });
   }
 };

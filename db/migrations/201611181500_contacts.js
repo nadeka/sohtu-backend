@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('contacts', function(t) {
-    t.increments().primary();
+    t.increments('id').primary();
     t.string('first_name').nullable();
     t.string('last_name').nullable();
     t.string('email').nullable();

@@ -47,7 +47,7 @@ describe("Templates", function() {
 
     it("returns all templates and status 200", function (done) {
       request.get({uri: url, json: true}, function(error, response, body) {
-        let templates = body.templates;
+        let templates = body;
 
         chai.expect(templates.length).to.equal(3);
         chai.expect(response.statusCode).to.equal(200);

@@ -2,6 +2,7 @@
 
 let models = require('../models/template');
 let utils = require('../utils/utils');
+let humps = require('humps');
 
 // Used to return HTTP errors
 //
@@ -12,7 +13,9 @@ module.exports = {
 
   getTemplates: function (request, reply) {
     models.Template.fetchAll().then(function (templates) {
-      reply(utils.formatJson('templates', templates));
+      let camelizedTemplates =
+        templates.toJSON({ omitPivot: true }).map(template => humps.camelizeKeys(template));
+      reply(camelizedTemplates);
     });
   }
 };

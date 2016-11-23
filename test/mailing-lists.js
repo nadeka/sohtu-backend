@@ -47,7 +47,7 @@ describe("Mailing lists", function() {
 
     it("returns all mailing lists and status 200", function (done) {
       request.get({uri: url, json: true}, function(error, response, body) {
-        let mailingLists = body.mailingLists;
+        let mailingLists = body;
 
         chai.expect(mailingLists.length).to.equal(3);
         chai.expect(response.statusCode).to.equal(200);
@@ -64,7 +64,7 @@ describe("Mailing lists", function() {
       let validUrl = "http://localhost:8001/mailing-lists/1";
 
       request.get({uri: validUrl, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
+        let mailingList = body;
 
         validateMailingList(mailingList);
         chai.expect(mailingList.name).to.equal('List 1');
@@ -74,27 +74,25 @@ describe("Mailing lists", function() {
       });
     });
 
-    it("returns undefined mailing list and status 404 when invalid id is given", function (done) {
+    it("returns error 404 when invalid id is given", function (done) {
       let invalidUrl = "http://localhost:8001/mailing-lists/asdasd";
 
       request.get({uri: invalidUrl, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
-
-        chai.expect(mailingList).to.be.undefined;
         chai.expect(body.statusCode).to.equal(404);
+        chai.expect(body.error).to.equal('Not Found');
+        chai.expect(body.message).to.equal('Mailing list not found.');
 
         done();
       });
     });
 
-    it("returns undefined mailing list and status 404 when given id does not exist", function (done) {
+    it("returns error 404 when given id does not exist", function (done) {
       let invalidUrl = "http://localhost:8001/mailing-lists/999999";
 
       request.get({uri: invalidUrl, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
-
-        chai.expect(mailingList).to.be.undefined;
         chai.expect(body.statusCode).to.equal(404);
+        chai.expect(body.error).to.equal('Not Found');
+        chai.expect(body.message).to.equal('Mailing list not found.');
 
         done();
       });
@@ -105,22 +103,22 @@ describe("Mailing lists", function() {
     let url = "http://localhost:8001/mailing-lists";
 
     it('creates new mailing list and returns status 200 when valid name is given', function(done) {
-      let validPostData =
-      { mailingList:
-        { name: 'abcdefg',
-          description: 'hijklmn'
-        }
+      let validPostData = {
+        name: 'abcdefg',
+        description: 'hijklmn',
+        members: []
       };
 
       request.post({uri: url, body: validPostData, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
+        let mailingList = body;
+
         validateMailingList(mailingList);
         chai.expect(mailingList.name).to.equal('abcdefg');
         chai.expect(mailingList.description).to.equal('hijklmn');
         chai.expect(response.statusCode).to.equal(200);
 
         request.get({uri: url, json: true}, function(error, response, body) {
-          let mailingLists = body.mailingLists;
+          let mailingLists = body;
 
           chai.expect(mailingLists.length).to.equal(4);
 
@@ -132,20 +130,17 @@ describe("Mailing lists", function() {
     });
 
     it('does not create new mailing list and returns status 400 when given name is empty', function(done) {
-      let invalidPostData =
-      { mailingList:
-        { name: '',
-          description: 'hijklmn'
-        }
+      let invalidPostData = {
+        name: '',
+        description: 'hijklmn'
       };
 
       request.post({uri: url, body: invalidPostData, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
-        chai.expect(mailingList).to.be.undefined;
         chai.expect(body.statusCode).to.equal(400);
+        chai.expect(body.error).to.equal('Bad Request');
 
         request.get({uri: url, json: true}, function(error, response, body) {
-          let mailingLists = body.mailingLists;
+          let mailingLists = body;
 
           chai.expect(mailingLists.length).to.equal(3);
 
@@ -157,20 +152,17 @@ describe("Mailing lists", function() {
     });
 
     it('does not create new mailing list and returns status 400 when given name is null', function(done) {
-      let invalidPostData =
-      { mailingList:
-        { name: null,
-          description: 'hijklmn'
-        }
+      let invalidPostData = {
+        name: null,
+        description: 'hijklmn'
       };
 
       request.post({uri: url, body: invalidPostData, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
-        chai.expect(mailingList).to.be.undefined;
         chai.expect(body.statusCode).to.equal(400);
+        chai.expect(body.error).to.equal('Bad Request');
 
         request.get({uri: url, json: true}, function(error, response, body) {
-          let mailingLists = body.mailingLists;
+          let mailingLists = body;
 
           chai.expect(mailingLists.length).to.equal(3);
 
@@ -182,19 +174,16 @@ describe("Mailing lists", function() {
     });
 
     it('does not create new mailing list and returns status 400 when description field is missing', function(done) {
-      let invalidPostData =
-      { mailingList:
-        { name: 'abcdefg'
-        }
+      let invalidPostData = {
+        name: 'abcdefg'
       };
 
       request.post({uri: url, body: invalidPostData, json: true}, function(error, response, body) {
-        let mailingList = body.mailingList;
-        chai.expect(mailingList).to.be.undefined;
         chai.expect(body.statusCode).to.equal(400);
+        chai.expect(body.error).to.equal('Bad Request');
 
         request.get({uri: url, json: true}, function(error, response, body) {
-          let mailingLists = body.mailingLists;
+          let mailingLists = body;
 
           chai.expect(mailingLists.length).to.equal(3);
 
@@ -210,4 +199,6 @@ describe("Mailing lists", function() {
 function validateMailingList(mailingList) {
   chai.expect(mailingList.id).to.be.defined;
   chai.expect(mailingList.name).to.be.defined;
+  chai.expect(mailingList.members).to.be.defined;
+  chai.expect(mailingList.members).to.be.an('array');
 }
