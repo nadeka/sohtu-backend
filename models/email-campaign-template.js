@@ -3,13 +3,13 @@
 var bookshelf = require('../config/bookshelf');
 var EmailCampaign = require('./email-campaign.js').EmailCampaign;
 
-var MailingList = bookshelf.Model.extend({
-  tableName: 'mailing_lists',
+var EmailCampaignTemplate = bookshelf.Model.extend({
+  tableName: 'email_campaign_templates',
   email_campaigns: function() {
-    return this.belongsToMany(EmailCampaign);
+    return this.hasMany(EmailCampaign);
   }
 });
 
 module.exports = {
-  MailingList: MailingList
+  EmailCampaignTemplate: EmailCampaignTemplate
 };

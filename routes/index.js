@@ -5,5 +5,6 @@
 
 let mailingLists = require('./mailing-lists');
 let contacts = require('./contacts');
+let emailCampaigns = require('./email-campaigns');
 
-module.exports = [].concat(mailingLists, contacts);
+module.exports = [].concat(mailingLists, contacts, emailCampaigns);
