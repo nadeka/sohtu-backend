@@ -2,7 +2,7 @@
 
 // Knex checks the NODE_ENV environment variable and chooses the right
 // database configuration for the environment (test, development, staging, production).
-// In staging and production, we also give database name, username and password
+// In staging and production, we give database port, host, name, username and password
 // as environment variables
 //
 // Check: http://knexjs.org/

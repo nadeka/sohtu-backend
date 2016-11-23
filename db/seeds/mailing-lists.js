@@ -3,6 +3,9 @@ exports.seed = function(knex, Promise) {
     // Deletes all existing entries and inserts seed entries
     knex('mailing_lists').del()
       .then(function() {
+        return knex.raw('ALTER SEQUENCE mailing_lists_id_seq RESTART WITH 1;');
+      })
+      .then(function() {
         return knex('mailing_lists').insert({
           name: 'List 1',
           description: 'Description 1',

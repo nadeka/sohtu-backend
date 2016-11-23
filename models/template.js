@@ -2,10 +2,10 @@
 
 var bookshelf = require('../config/bookshelf');
 
-var Contact = bookshelf.Model.extend({
-  tableName: 'contacts'
+var Template = bookshelf.Model.extend({
+  tableName: 'templates'
 });
 
 module.exports = {
-  Contact: Contact
+  Template: Template
 };
