@@ -1,7 +1,7 @@
 'use strict';
 
 let models = require('../models/email-campaign');
-let utils = require('../utils/utils');
+let humps = require('humps');
 
 // Used to return HTTP errors
 //
@@ -11,20 +11,22 @@ let Boom = require('boom');
 module.exports = {
 
   createEmailCampaign: function (request, reply) {
-    request.payload.created_at = new Date();
-    request.payload.updated_at = new Date();
 
     let newEmailCampaign = {
       name: request.payload.name,
       subject: request.payload.subject,
+      mailing_lists: request.payload.mailingLists,
       schedule: request.payload.schedule,
-      content: '',
-      email_campaign_template_id: 1
-    }
+      template: request.payload.template,
+      content: request.payload.content,
+      created_at: new Date(),
+      updated_at: new Date()
+    };
 
     new models.EmailCampaign(newEmailCampaign).save().then(function (emailCampaign) {
-      reply(utils.formatJson('emailCampaign', emailCampaign));
+      reply(humps.camelizeKeys(emailCampaign.toJSON({ omitPivot: true })));
     });
+
   }
 
 };

@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('templates', function(t) {
-    t.increments().primary();
+    t.increments('id').primary();
     t.string('name').notNull();
     t.text('html').nullable();
     t.text('html_image').nullable();

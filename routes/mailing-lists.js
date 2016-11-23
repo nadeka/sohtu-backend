@@ -22,7 +22,7 @@ module.exports = [{
   config: {
     handler: mailingListController.createMailingList,
     validate: {
-      payload: validators
+      payload: validators.mailingList
     }
   }
 }];

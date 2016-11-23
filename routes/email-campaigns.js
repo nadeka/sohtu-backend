@@ -10,7 +10,7 @@ module.exports = [{
   config: {
     handler: emailCampaignController.createEmailCampaign,
     validate: {
-      payload: validators
+      payload: validators.emailCampaign
     }
   }
 }];

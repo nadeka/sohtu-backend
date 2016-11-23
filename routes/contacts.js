@@ -22,7 +22,7 @@ module.exports = [{
   config: {
     handler: contactsController.createContact,
     validate: {
-      payload: validators
+      payload: validators.contact
     }
   }
 }];

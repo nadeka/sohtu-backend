@@ -47,7 +47,7 @@ describe('Contacts', function() {
 
     it('returns all contacts and status 200', function (done) {
       request.get({uri: url, json: true}, function(error, response, body) {
-        let contacts = body.contacts;
+        let contacts = body;
 
         chai.expect(contacts.length).to.equal(3);
         chai.expect(response.statusCode).to.equal(200);
@@ -64,11 +64,11 @@ describe('Contacts', function() {
       let validUrl = "http://localhost:8001/contacts/1";
 
       request.get({uri: validUrl, json: true}, function(error, response, body) {
-        let contact = body.contact;
+        let contact = body;
 
         validateContact(contact);
-        chai.expect(contact.first_name).to.equal('Salli');
-        chai.expect(contact.last_name).to.equal('Saarenpää');
+        chai.expect(contact.firstName).to.equal('Salli');
+        chai.expect(contact.lastName).to.equal('Saarenpää');
         chai.expect(contact.email).to.equal('salli.saarenpää@gmail.com');
         chai.expect(contact.telephone).to.equal('0400 123 456');
         chai.expect(contact.gender).to.equal('Female');
@@ -77,27 +77,25 @@ describe('Contacts', function() {
       });
     });
 
-    it("returns undefined contact and status 404 when invalid id is given", function (done) {
+    it("returns error 404 when invalid id is given", function (done) {
       let invalidUrl = "http://localhost:8001/contacts/asdasd";
 
       request.get({uri: invalidUrl, json: true}, function(error, response, body) {
-        let contact = body.contact;
-
-        chai.expect(contact).to.be.undefined;
         chai.expect(body.statusCode).to.equal(404);
+        chai.expect(body.error).to.equal('Not Found');
+        chai.expect(body.message).to.equal('Contact not found.');
 
         done();
       });
     });
 
-    it("returns undefined contact and status 404 when given id does not exist", function (done) {
+    it("returns error 404 when given id does not exist", function (done) {
       let invalidUrl = "http://localhost:8001/contacts/999999";
 
       request.get({uri: invalidUrl, json: true}, function(error, response, body) {
-        let contact = body.contact;
-
-        chai.expect(contact).to.be.undefined;
         chai.expect(body.statusCode).to.equal(404);
+        chai.expect(body.error).to.equal('Not Found');
+        chai.expect(body.message).to.equal('Contact not found.');
 
         done();
       });
@@ -108,28 +106,26 @@ describe('Contacts', function() {
     let url = "http://localhost:8001/contacts";
 
     it('creates new contact and returns status 200', function(done) {
-      let validPostData =
-      { contact:
-        { first_name: 'Mikko-Pekka',
-          last_name: 'Makkonen',
-          email: 'mikko-pekka.makkonen@helsinki.fi',
-          telephone: '040 5438 235',
-          gender: 'Male'
-        }
+      let validPostData = {
+        firstName: 'Mikko-Pekka',
+        lastName: 'Makkonen',
+        email: 'mikko-pekka.makkonen@helsinki.fi',
+        telephone: '040 5438 235',
+        gender: 'Male'
       };
 
       request.post({uri: url, body: validPostData, json: true}, function(error, response, body) {
-        let contact = body.contact;
+        let contact = body;
         validateContact(contact);
-        chai.expect(contact.first_name).to.equal('Mikko-Pekka');
-        chai.expect(contact.last_name).to.equal('Makkonen');
+        chai.expect(contact.firstName).to.equal('Mikko-Pekka');
+        chai.expect(contact.lastName).to.equal('Makkonen');
         chai.expect(contact.email).to.equal('mikko-pekka.makkonen@helsinki.fi');
         chai.expect(contact.telephone).to.equal('040 5438 235');
         chai.expect(contact.gender).to.equal('Male');
         chai.expect(response.statusCode).to.equal(200);
 
         request.get({uri: url, json: true}, function(error, response, body) {
-          let contacts = body.contacts;
+          let contacts = body;
 
           chai.expect(contacts.length).to.equal(4);
 
@@ -141,22 +137,19 @@ describe('Contacts', function() {
     });
 
     it('does not create new contact and returns status 400 when first name field is missing', function(done) {
-      let invalidPostData =
-      { contact:
-        { last_name: 'Makkonen',
-          email: 'mikko-pekka.makkonen@helsinki.fi',
-          telephone: '040 5438 235',
-          gender: 'Male'
-        }
+      let invalidPostData = {
+        lastName: 'Makkonen',
+        email: 'mikko-pekka.makkonen@helsinki.fi',
+        telephone: '040 5438 235',
+        gender: 'Male'
       };
 
       request.post({uri: url, body: invalidPostData, json: true}, function(error, response, body) {
-        let contact = body.contact;
-        chai.expect(contact).to.be.undefined;
         chai.expect(body.statusCode).to.equal(400);
+        chai.expect(body.error).to.equal('Bad Request');
 
         request.get({uri: url, json: true}, function(error, response, body) {
-          let contacts = body.contacts;
+          let contacts = body;
 
           chai.expect(contacts.length).to.equal(3);
 
@@ -171,8 +164,8 @@ describe('Contacts', function() {
 
 function validateContact(contact) {
   chai.expect(contact.id).to.be.defined;
-  chai.expect(contact.first_name).to.be.defined;
-  chai.expect(contact.last_name).to.be.defined;
+  chai.expect(contact.firstName).to.be.defined;
+  chai.expect(contact.lastName).to.be.defined;
   chai.expect(contact.email).to.be.defined;
   chai.expect(contact.telephone).to.be.defined;
   chai.expect(contact.gender).to.be.defined;
