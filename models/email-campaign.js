@@ -1,7 +1,7 @@
 'use strict';
 
 var bookshelf = require('../config/bookshelf');
-var EmailCampaignTemplate = require('./email-campaign-template.js').EmailCampaignTemplate;
+var Template = require('./template.js').Template;
 var MailingList = require('./mailing-list.js').MailingList;
 
 var EmailCampaign = bookshelf.Model.extend({
@@ -9,8 +9,8 @@ var EmailCampaign = bookshelf.Model.extend({
   mailing_lists: function() {
     return this.belongsToMany(MailingList);
   },
-  email_campaign_template: function() {
-    return this.belongsTo(EmailCampaignTemplate);
+  template: function() {
+    return this.belongsTo(Template);
   }
 });
 

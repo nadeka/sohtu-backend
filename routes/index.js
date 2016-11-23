@@ -8,4 +8,4 @@ let contacts = require('./contacts');
 let emailCampaigns = require('./email-campaigns');
 let templates = require('./templates');
 
-module.exports = [].concat(mailingLists, contacts, templates emailCampaigns);
+module.exports = [].concat(mailingLists, contacts, templates, emailCampaigns);

@@ -14,7 +14,15 @@ module.exports = {
     request.payload.created_at = new Date();
     request.payload.updated_at = new Date();
 
-    new models.EmailCampaign(request.payload).save().then(function (emailCampaign) {
+    let newEmailCampaign = {
+      name: request.payload.name,
+      subject: request.payload.subject,
+      schedule: request.payload.schedule,
+      content: '',
+      email_campaign_template_id: 1
+    }
+
+    new models.EmailCampaign(newEmailCampaign).save().then(function (emailCampaign) {
       reply(utils.formatJson('emailCampaign', emailCampaign));
     });
   }
