@@ -44,7 +44,18 @@ module.exports = {
         mailingList.load(['members'])
           .then(function(model) {
             model.members().attach(request.payload.members);
-            reply(humps.camelizeKeys(model.toJSON({ omitPivot: true })));
+
+            new models.MailingList({id: mailingList.id})
+              .fetch({withRelated: ['members'], require: true})
+              .then(function(mailingList) {
+                reply(humps.camelizeKeys(mailingList.toJSON({ omitPivot: true })));
+              })
+              .catch(function (err) {
+                reply(Boom.notFound("Error fetching created mailing list."));
+              });
+          })
+          .catch(function (err) {
+            reply(Boom.badRequest("Could not create mailing list."));
           });
     });
   }
