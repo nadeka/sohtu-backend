@@ -2,6 +2,7 @@
 
 let models = require('../models/mailing-list');
 let humps = require('humps');
+let bookshelf = require('../config/bookshelf');
 
 // Used to return HTTP errors
 //
@@ -21,11 +22,11 @@ module.exports = {
 
   getMailingList: function (request, reply) {
     new models.MailingList({id: request.params.id})
-      .fetch({withRelated: ['members'], require: true})
+      .fetch({ withRelated: ['members'], require: true })
       .then(function(mailingList) {
         reply(humps.camelizeKeys(mailingList.toJSON({ omitPivot: true })));
       })
-      .catch(function (err) {
+      .catch(function(err) {
         reply(Boom.notFound("Mailing list not found."));
       });
   },
@@ -40,23 +41,28 @@ module.exports = {
 
     new models.MailingList(newMailingList)
       .save()
-      .then(function (mailingList) {
+      .then(function(mailingList) {
         mailingList.load(['members'])
           .then(function(model) {
-            model.members().attach(request.payload.members);
-
-            new models.MailingList({id: mailingList.id})
-              .fetch({withRelated: ['members'], require: true})
-              .then(function(mailingList) {
-                reply(humps.camelizeKeys(mailingList.toJSON({ omitPivot: true })));
-              })
-              .catch(function (err) {
-                reply(Boom.notFound("Error fetching created mailing list."));
-              });
+            model.members().attach(request.payload.members).then(function() {
+              new models.MailingList({id: mailingList.id})
+                .fetch({ withRelated: ['members'], require: true })
+                .then(function(mailingList) {
+                  reply(humps.camelizeKeys(mailingList.toJSON({ omitPivot: true })));
+                })
+                .catch(function(err) {
+                  reply(Boom.notFound("Could not fetch created mailing list."));
+                });
+            })
+            .catch(function(err) {
+              reply(Boom.internal("Could not attach members to mailing list."));
+            });
           })
-          .catch(function (err) {
-            reply(Boom.badRequest("Could not create mailing list."));
+          .catch(function(err) {
+            reply(Boom.internal("Could not attach members to mailing list."));
           });
+    }).catch(function(err) {
+        reply(Boom.badRequest("Could not create mailing list."));
     });
   }
 };
