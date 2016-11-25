@@ -1,16 +1,17 @@
 'use strict';
 
 var bookshelf = require('../config/bookshelf');
-var Template = require('./template.js').Template;
-var MailingList = require('./mailing-list.js').MailingList;
+
+var Template = require('./template').Template;
+var MailingList = require('./mailing-list').MailingList;
 
 var EmailCampaign = bookshelf.Model.extend({
   tableName: 'email_campaigns',
-  mailing_lists: function() {
-    return this.belongsToMany(MailingList, 'email-campaign-mailing-lists', 'email_campaign_id', 'mailing_list_id');
+  mailingLists: function() {
+    return this.belongsToMany(MailingList, 'email_campaign_mailing_lists', 'email_campaign_id', 'mailing_list_id');
   },
   template: function() {
-    return this.belongsTo(Template);
+    return this.belongsTo(Template, 'template_id');
   }
 });
 

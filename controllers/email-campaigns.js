@@ -15,16 +15,32 @@ module.exports = {
     let newEmailCampaign = {
       name: request.payload.name,
       subject: request.payload.subject,
-      mailing_lists: request.payload.mailingLists,
       schedule: request.payload.schedule,
-      template: request.payload.template,
       content: request.payload.content,
+      template_id: request.payload.template,
       created_at: new Date(),
       updated_at: new Date()
     };
 
-    new models.EmailCampaign(newEmailCampaign).save().then(function (emailCampaign) {
-      reply(humps.camelizeKeys(emailCampaign.toJSON({ omitPivot: true })));
+    new models.EmailCampaign(newEmailCampaign)
+      .save()
+      .then(function (emailCampaign) {
+        emailCampaign.load(['mailingLists'])
+          .then(function(model) {
+            model.mailingLists().attach(request.payload.mailingLists).then(function() {
+              new models.EmailCampaign({id: emailCampaign.id})
+                .fetch({withRelated: ['mailingLists'], require: true})
+                .then(function(emailCampaign) {
+                  reply(humps.camelizeKeys(emailCampaign.toJSON({ omitPivot: true })));
+                })
+                .catch(function (err) {
+                  reply(Boom.notFound("Error fetching created email campaign."));
+                });
+            });
+          })
+          .catch(function (err) {
+            reply(Boom.badRequest("Could not create email campaign."));
+          });
     });
 
   }
