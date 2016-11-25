@@ -46,11 +46,11 @@ module.exports = {
   staging: {
     client: 'postgresql',
     connection: {
-      port: process.env.DB_PORT,
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user:     process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      port: process.env.RDS_PORT,
+      host: process.env.RDS_HOSTNAME,
+      database: process.env.RDS_DB_NAME,
+      user:     process.env.RDS_USERNAME,
+      password: process.env.RDS_PASSWORD
     },
     pool: {
       min: 2,
@@ -66,11 +66,11 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      port: process.env.DB_PORT,
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user:     process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      port: process.env.RDS_PORT,
+      host: process.env.RDS_HOSTNAME,
+      database: process.env.RDS_DB_NAME,
+      user:     process.env.RDS_USERNAME,
+      password: process.env.RDS_PASSWORD
     },
     pool: {
       min: 2,
