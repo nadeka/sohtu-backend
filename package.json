@@ -5,6 +5,7 @@
   "main": "server",
   "license": "MIT",
   "scripts": {
+    "start": "node server.js",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
