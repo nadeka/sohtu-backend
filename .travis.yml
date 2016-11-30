@@ -4,6 +4,8 @@ node_js:
 services:
 - postgresql
 before_install:
+- pip install --user awscli
+- export PATH=$PATH:$HOME/.local/bin
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -15,17 +17,5 @@ script:
 - npm run test-cover
 after_script:
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-deploy:
-  skip_cleanup: true
-  edge: true
-  provider: elasticbeanstalk
-  app: marketing-automation-backend
-  env: marketingAutomation-env
-  bucket_name: elasticbeanstalk-eu-west-1-199022732517
-  region: eu-west-1
-  access_key_id:
-    secure: BVKWOi06/fED5j2vUgZbx4Hoc+DLNF0r6JNm2cj4xR6Jl4wMrXLBUNjvAzTM49IKW0Bh/kdsfllQaTemBm9D56D84MSh/fh9H18nawdzE8o8smd5z/KRdUZFDqguUyyAGyFYZPlXkxEYITuv0By3Kbe7Hq5WF0pWjhd4A4srZchXWbRrDzDW209Gm5qML3Iy5M9Hns8XAx50vGEzWS1/IQmxfiwkGqOoeAsJ2LOhPJuwKOMOg6BiB6ydEOsnLXoieGadFW6gr9zucJnJ+NHbAS/WqBKb4026pauJUxRUEOsqGo5uxvWiDuqMyKPQzWtgUHb49SwuMnVRx32hCDDBHHzhc29IrALxEVV612Als4zpwGbPISqSl/PJ7LvTnUgz5u5NvXjSiS5wRO2/b2EJ3zYPayU+Ol7ivFzDJoeUVg2KbTQqc3VGC406fiicEuf+JDBcaj5zZaYlU07V84fUN2s5UeB0U26WybdMB9BafBmMybAzy9Q8CCRobsLDaWneUdUGikudMUMBSCVMavXggJlhguVrlRXAuUiPOJiHkHufSa10D0oB7pMPMIyI63aeQ7FPmzA/cTHxSAYajTFfFzYgTu8hk9SA6E1BVIUCoj0KF5bPTqvI7PDpjpRir8d0ZCyHpmHZKYSxJjEOD3ak7ZfoEAKh5kKufMV9I2MVKgs=
-  secret_access_key:
-    secure: LvdKILsEp9Q+BENPTn3twjITEmt5mq9mYxVMxgn/BIya4Fsi+UKJ0Uns0AWGIA+nGTVW1MXh29lpopA6x2D7hM5V/1BaEenPvPjJoQYljSczw7Vmb9/FzCGLyZDmkozMp8XQPji1PRzhrDZToQwL2Fk2fPeOISOJMlzSq2tst/9FP1OcX8DTog5pTy9fAtvd3Ajjxs4lVsO5BNUPtKvyYx1WlZw1j5JywM6le61vHOyBORmbdQp3MFuuXXS7gwy6o2SoHSk/xujodkIOuTpk4KlD4h/9hK5kpiPvqnTibJjuEDZOR5EWrj96mpPlmxf0xlSE8cE0rJk1DGK0zMANjlKR1NYjnZXmxa3mQcbV5DUDMnVAUtvffHNyEIzggdUmz1L43i4dT0RF3IZRWl1Ou/P35BawABHJj2r3zs1o694BxQCY3+6F4Y4KQUDoI+D9N0/CtQMOidmIoMx+XyyMaRcieI7rlu8P1YNakSogYkRb3B9CGofec4GXVT4E0BqQItojYFfpX4Og/iXsDgyzHfPX6XRyOuP849lzbYgNLKi3En8p0fQJol5DcmfFikraCkJ9gNX6IUsbNW5s17ZwGngaKkUu1MRXk1rrxkPgg9FlaKvx6ZL+md9CVdu10iO/RcglrJJNQQJhCZxmjIqIRQhS4yL9v/uaLqtat4nxoR8=
-  on:
-    branch: master
+after_success:
+- ./deploy.sh
