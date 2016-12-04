@@ -8,7 +8,7 @@
 // Check: http://knexjs.org/
 module.exports = {
   test: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'sohtutest',
       user:     'postgres',
@@ -26,7 +26,7 @@ module.exports = {
   },
 
   development: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'sohtudev',
       user:     'postgres',
@@ -42,12 +42,11 @@ module.exports = {
     },
     seeds: { directory: './db/seeds' }
   },
-
   staging: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
-      port: process.env.DB_PORT,
-      host: process.env.DB_HOST,
+      port: process.env.RDS_PORT,
+      host: process.env.RDS_HOSTNAME,
       database: process.env.DB_NAME,
       user:     process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD
@@ -64,13 +63,13 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
-      port: process.env.DB_PORT,
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user:     process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
+      port: process.env.RDS_PORT,
+      host: process.env.RDS_HOSTNAME,
+      database: process.env.RDS_DB_NAME,
+      user:     process.env.RDS_USERNAME,
+      password: process.env.RDS_PASSWORD
     },
     pool: {
       min: 2,

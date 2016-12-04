@@ -1,5 +1,7 @@
 # sohtu-backend [![Build Status](https://travis-ci.org/nadeka/sohtu-backend.svg?branch=master)](https://travis-ci.org/nadeka/sohtu-backend) [![Coverage Status](https://coveralls.io/repos/github/nadeka/sohtu-backend/badge.svg?branch=master)](https://coveralls.io/github/nadeka/sohtu-backend?branch=master)
 
+[Link to EB](http://marketingautomation-env.eu-west-1.elasticbeanstalk.com/)
+
 ### Setup for development
 
 ##### 1. Install Node and PostgreSQL
