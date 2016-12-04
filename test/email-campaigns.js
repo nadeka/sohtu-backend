@@ -18,7 +18,7 @@ let chai = require('chai');
 // Check: https://github.com/request/request
 let request = require('request');
 
-describe('Contacts', function() {
+describe('Email campaigns', function() {
 
   // Run migrations and insert seeds before each test
   beforeEach(function(done) {
@@ -87,6 +87,7 @@ describe('Contacts', function() {
       });
     });
   });
+  
 });
 
 function validateEmailCampaign(emailCampaign) {

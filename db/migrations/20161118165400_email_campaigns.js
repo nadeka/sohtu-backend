@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     t.integer('template_id').references('templates.id').onDelete('CASCADE');
     t.string('name').notNull();
     t.string('subject').notNull();
-    t.string('content').notNull();
+    t.text('content').notNull();
     t.dateTime('schedule').notNull();
     t.dateTime('created_at').notNull();
     t.dateTime('updated_at').nullable();

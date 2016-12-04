@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
         return knex('contacts').insert({
           first_name: 'Pekka',
           last_name: 'Pouta',
-          email: 'pekka.pouta@gmail.com',
+          email: 'pekka.pouta@hotmail.com',
           telephone: '050 5433 343',
           gender: 'Male',
           created_at: new Date(),

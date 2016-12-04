@@ -13,4 +13,13 @@ module.exports = [{
       payload: validators.emailCampaign
     }
   }
+},{
+  method: 'POST',
+  path: '/email-campaigns/test',
+  config: {
+    handler: emailCampaignController.sendTestCampaign,
+    validate: {
+      payload: validators.testEmailCampaign
+    }
+  }
 }];
