@@ -52,7 +52,8 @@ describe('Email campaigns', function() {
         mailingLists: [1, 2, 3],
         template: '1',
         content: '<h1>',
-        schedule: '2016-11-24T09:30:50.621Z'
+        schedule: '2018-11-24T09:30:50.621Z',
+        status: 'pending'
       };
 
       request.post({uri: url, body: validPostData, json: true}, function(error, response, body) {
@@ -65,10 +66,11 @@ describe('Email campaigns', function() {
         chai.expect(emailCampaign.mailingLists[1].id).to.equal(2);
         chai.expect(emailCampaign.mailingLists[2].id).to.equal(3);
         chai.expect(emailCampaign.content).to.equal('<h1>');
-        chai.expect(emailCampaign.schedule).to.equal('2016-11-24T09:30:50.621Z');
+        chai.expect(emailCampaign.schedule).to.equal('2018-11-24T09:30:50.621Z');
         chai.expect(response.statusCode).to.equal(200);
         done();
       });
+
     });
 
     it('does not create new email campaign and returns status 400 when name field is missing', function(done) {
@@ -87,7 +89,7 @@ describe('Email campaigns', function() {
       });
     });
   });
-  
+
 });
 
 function validateEmailCampaign(emailCampaign) {
@@ -98,4 +100,5 @@ function validateEmailCampaign(emailCampaign) {
   chai.expect(emailCampaign.content).to.be.defined;
   chai.expect(emailCampaign.mailingLists).to.be.defined;
   chai.expect(emailCampaign.schedule).to.be.defined;
+  chai.expect(emailCampaign.status).to.be.defined;
 }
