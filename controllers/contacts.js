@@ -2,6 +2,7 @@
 
 let models = require('../models/contact');
 let humps = require('humps');
+let logger = require('../services/logger');
 
 // Used to return HTTP errors
 //
@@ -11,11 +12,18 @@ let Boom = require('boom');
 module.exports = {
 
   getContacts: function (request, reply) {
-    models.Contact.fetchAll().then(function (contacts) {
-      let camelizedContacts =
-        contacts.toJSON({ omitPivot: true }).map(contact => humps.camelizeKeys(contact));
-      reply(camelizedContacts);
-    });
+    models.Contact
+      .fetchAll()
+      .then(function (contacts) {
+        let camelizedContacts =
+          contacts.toJSON({ omitPivot: true }).map(contact => humps.camelizeKeys(contact));
+        reply(camelizedContacts);
+      })
+      .catch(function(err) {
+        logger.error('Contacts could not be fetched from the database');
+
+        reply(Boom.notFound('Contacts not found.'));
+      });
   },
 
   getContact: function (request, reply) {
@@ -25,6 +33,7 @@ module.exports = {
         reply(humps.camelizeKeys(contact.toJSON({ omitPivot: true })));
       })
       .catch(function (err) {
+        logger.error('Contact with id %s was requested but not found', request.params.id);
         reply(Boom.notFound("Contact not found."));
       });
   },
@@ -40,8 +49,15 @@ module.exports = {
       updated_at: new Date()
     };
 
-    new models.Contact(newContact).save().then(function (contact) {
-      reply(humps.camelizeKeys(contact.toJSON({ omitPivot: true })));
-    });
+    new models.Contact(newContact)
+      .save()
+      .then(function (contact) {
+        reply(humps.camelizeKeys(contact.toJSON({ omitPivot: true })));
+      })
+      .catch(function(err) {
+        logger.error('New contact could not be saved to the database:', newContact);
+
+        reply(Boom.badRequest('Could not create contact.'));
+      });
   }
 };

@@ -7,9 +7,6 @@ const Hapi = require('hapi');
 
 const settings = require('./config/settings');
 
-//load extra environment variables
-require('dotenv').config();
-
 const schedule = require('./config/schedule');
 
 const server = new Hapi.Server();

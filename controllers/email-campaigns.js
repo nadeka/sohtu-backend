@@ -3,6 +3,7 @@
 let models = require('../models/email-campaign');
 let humps = require('humps');
 let sendgrid = require('../services/sendgrid');
+let logger = require('../services/logger');
 
 // Used to return HTTP errors
 //
@@ -56,14 +57,18 @@ module.exports = {
                   reply(jsonEmailCampaign);
                 })
                 .catch(function (err) {
+                  logger.error('Could not fetch the newly created email campaign:', emailCampaign);
+
                   reply(Boom.notFound("Error fetching created email campaign."));
                 });
             });
-          })
-          .catch(function (err) {
-            reply(Boom.badRequest("Could not create email campaign."));
           });
-    });
+      })
+      .catch(function (err) {
+        logger.error('New email campaign could not be saved to the database:', newEmailCampaign);
+
+        reply(Boom.badRequest("Could not create email campaign."));
+      });
   }
 };
 

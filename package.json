@@ -16,7 +16,7 @@
   "dependencies": {
     "bookshelf": "^0.10.2",
     "boom": "^4.2.0",
-    "dotenv": "^2.0.0",
+    "fs": "0.0.1-security",
     "hapi": "^15.2.0",
     "hapi-knex-builder": "^0.4.1",
     "humps": "^2.0.0",
@@ -24,7 +24,9 @@
     "knex": "^0.12.6",
     "node-schedule": "^1.2.0",
     "pg": "^6.1.0",
-    "sendgrid": "^4.7.1"
+    "sendgrid": "^4.7.1",
+    "winston": "^2.3.0",
+    "winston-daily-rotate-file": "^1.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

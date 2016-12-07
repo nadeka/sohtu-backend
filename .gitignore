@@ -1,13 +1,12 @@
-.idea
+.idea/
 *.iml
 *.swp
-node_modules
+node_modules/
 *.log
 logs/
-coverage
+coverage/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-.env
