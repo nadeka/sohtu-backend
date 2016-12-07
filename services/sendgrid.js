@@ -5,7 +5,8 @@ let humps = require('humps');
 
 module.exports = {
   sendEmailCampaigns: sendEmailCampaigns,
-  sendEmailCampaign: sendEmailCampaign
+  sendEmailCampaign: sendEmailCampaign,
+  setCampaignStatus: setCampaignStatus
 };
 
 //This method sends all email campaigns to sendgrid
@@ -21,7 +22,7 @@ function sendEmailCampaigns(hours) {
       emailCampaigns.toJSON({ omitPivot: true }).forEach(function(emailCampaign) {
         camelizedEmailCampaign = humps.camelizeKeys(emailCampaign);
         sendEmailCampaign(camelizedEmailCampaign);
-        new models.EmailCampaign({id: emailCampaign.id}).save({status: 'sent'}, {patch: true});
+        setCampaignStatus(emailCampaign.id, 'sent');
       })
     })
 }
@@ -47,4 +48,8 @@ function sendEmailCampaign(emailCampaign) {
             });
         });
     });
+}
+
+function setCampaignStatus(emailCampaignId, status) {
+  new models.EmailCampaign({id: emailCampaignId}).save({status: status}, {patch: true});
 }

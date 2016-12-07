@@ -73,5 +73,6 @@ function sendCampaignIfScheduleIsNear(jsonEmailCampaign) {
     let hours = 24;
     if (schedule.getTime() < now.getTime() + hours * 3600000) {
       sendgrid.sendEmailCampaign(jsonEmailCampaign);
+      sendgrid.setCampaignStatus(jsonEmailCampaign.id, 'sent');
     }
 }
