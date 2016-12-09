@@ -11,6 +11,8 @@ const tsFormat = () => (new Date()).toLocaleTimeString();
 
 const logDir = 'logs';
 
+console.log(connectionObj);
+
 // Create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
@@ -67,7 +69,7 @@ if (env === 'test') {
         connString: connectionObj,
         tableName: 'log_messages',
         level: 'error'
-      }),
+      })
     ]
   });
 }
