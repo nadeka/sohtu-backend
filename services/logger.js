@@ -19,7 +19,7 @@ if (!fs.existsSync(logDir)) {
 let logger;
 
 if (env === 'test') {
-  // While testing, log only to a file
+  // While testing, log only to file and database but not console
   logger = new (winston.Logger)({
     transports: [
       new (winston.transports.File)({
@@ -31,21 +31,27 @@ if (env === 'test') {
         datePattern: 'dd-MM-yyyy',
         prepend: true,
         level: 'debug'
+      }),
+
+      new (require('winston-postgresql').PostgreSQL)({
+        connString: connectionObj,
+        tableName: 'log_messages',
+        level: 'error'
       })
     ]
   });
 } else {
+  // In other environments, log to file, database and console
   logger = new (winston.Logger)({
     exitOnError: false,
     transports: [
-      // Log to the console
       new (winston.transports.Console)({
         timestamp: tsFormat,
         colorize: true,
         level: env === 'development' ? 'debug' : 'info'
       }),
 
-      // Log to a file. A new file is created daily with a timestamp prepended to its name
+      // A new file is created daily with a timestamp prepended to its name
       new (require('winston-daily-rotate-file'))({
         filename: `${logDir}/-logs.log`,
         timestamp: tsFormat,
