@@ -13,11 +13,14 @@ let Boom = require('boom');
 module.exports = {
 
   sendTestCampaign: function (request, reply) {
+    logger.debug(`Creating test email campaign from payload data:`, request.payload);
+
     let testCampaign = {
       subject: request.payload.subject,
       schedule: new Date(),
       content: request.payload.content,
-    }
+    };
+
     testCampaign.mailingLists = [];
     testCampaign.mailingLists.push({
       members: []
@@ -28,10 +31,13 @@ module.exports = {
         })
     });
     sendgrid.sendEmailCampaign(testCampaign);
+    logger.debug(`Sent test email campaign to Sendgrid`);
     reply();
   },
 
   createEmailCampaign: function (request, reply) {
+    logger.debug(`Creating new email campaign from payload data:`, request.payload);
+
     let newEmailCampaign = {
       name: request.payload.name,
       subject: request.payload.subject,
@@ -41,7 +47,7 @@ module.exports = {
       created_at: new Date(),
       updated_at: new Date(),
       status: request.payload.status
-    }
+    };
 
     new models.EmailCampaign(newEmailCampaign)
       .save()
@@ -53,6 +59,7 @@ module.exports = {
                 .fetch({withRelated: ['mailingLists.members'], require: true})
                 .then(function(emailCampaign) {
                   let jsonEmailCampaign = humps.camelizeKeys(emailCampaign.toJSON({ omitPivot: true }));
+                  logger.debug(`Saved new email campaign:`, jsonEmailCampaign);
                   sendCampaignIfScheduleIsNear(jsonEmailCampaign);
                   reply(jsonEmailCampaign);
                 })
@@ -73,6 +80,8 @@ module.exports = {
 };
 
 function sendCampaignIfScheduleIsNear(jsonEmailCampaign) {
+    logger.debug(`Sending new email campaign immediately`);
+
     let schedule = new Date(jsonEmailCampaign.schedule);
     let now = new Date();
     let hours = 24;

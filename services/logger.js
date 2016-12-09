@@ -4,7 +4,10 @@ const winston = require('winston');
 const fs = require('fs');
 
 const env = process.env.NODE_ENV || 'development';
+
+// Format of the timestamp in the log file name
 const tsFormat = () => (new Date()).toLocaleTimeString();
+
 const logDir = 'logs';
 
 // Create the log directory if it does not exist
@@ -19,7 +22,7 @@ const logger = new (winston.Logger)({
     new (winston.transports.Console)({
       timestamp: tsFormat,
       colorize: true,
-      level: 'info'
+      level: env === 'development' ? 'debug' : 'info'
     }),
 
     // Log to a file. A new file is created daily with a timestamp prepended to its name
@@ -35,7 +38,5 @@ const logger = new (winston.Logger)({
     })
   ]
 });
-
-logger.info('Logger initialized');
 
 module.exports = logger;

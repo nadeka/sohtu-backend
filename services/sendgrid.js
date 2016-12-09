@@ -14,6 +14,8 @@ module.exports = {
 //that should be sent in the next x hours specified by the parameter.
 //Note that Sendgrid only allows scheduling up to 72 hours in advance.
 function sendEmailCampaigns(hours) {
+    logger.debug(`Fetching pending email campaigns that should be sent to Sendgrid in under ${hours} hours`);
+
     let date = new Date();
     let milliseconds = hours * 3600000;
     date.setTime(date.getTime() + milliseconds);
@@ -24,7 +26,10 @@ function sendEmailCampaigns(hours) {
       })
       .fetchAll({withRelated: ['mailingLists.members'], required:true})
       .then(function(emailCampaigns) {
+        logger.debug(`Fetched ${emailCampaigns.length} email campaigns`);
+
         emailCampaigns.toJSON({ omitPivot: true }).forEach(function(emailCampaign) {
+          logger.debug(`Sending email campaign with id ${emailCampaign.id} to Sendgrid`);
           let camelizedEmailCampaign = humps.camelizeKeys(emailCampaign);
           sendEmailCampaign(camelizedEmailCampaign);
           setCampaignStatus(emailCampaign.id, 'sent');
@@ -32,7 +37,7 @@ function sendEmailCampaigns(hours) {
       })
       .catch(function(err) {
         let query = `where schedule < ${date} and status like pending`;
-        logger.error('Could not send email campaigns to Sendgrid, error fetching campaigns ' +
+        logger.error('Error fetching email campaigns for Sendgrid ' +
           'with query:', query);
       });
 }
@@ -46,6 +51,7 @@ function sendEmailCampaign(emailCampaign) {
             content = new helper.Content("text/html", emailCampaign.content);
             mail = new helper.Mail(from_email, subject, to_email, content);
             mail.setSendAt(Math.round(new Date(emailCampaign.schedule).getTime() / 1000));
+
             let request = sg.emptyRequest({
                 method: 'POST',
                 path: '/v3/mail/send',
@@ -67,8 +73,11 @@ function sendEmailCampaign(emailCampaign) {
 function setCampaignStatus(emailCampaignId, status) {
   new models.EmailCampaign({id: emailCampaignId})
     .save({status: status}, {patch: true})
+    .then(function() {
+      logger.debug(`Status changed from 'pending' to 'sent' for email campaign with id ${emailCampaignId}`);
+    })
     .catch(function(err) {
-      logger.error('Could not set status to sent for email ' +
-        'campaign with id %s', emailCampaignId);
+      logger.error(`Could not set status from 'pending' to 'sent' for email ' +
+        'campaign with id ${emailCampaignId}`);
     });
 }

@@ -12,11 +12,14 @@ let Boom = require('boom');
 module.exports = {
 
   getTemplates: function (request, reply) {
+    logger.debug('Fetching all templates');
+
     models.Template
       .fetchAll()
       .then(function (templates) {
         let camelizedTemplates =
           templates.toJSON({ omitPivot: true }).map(template => humps.camelizeKeys(template));
+        logger.debug(`Fetched ${camelizedTemplates.length} templates`);
         reply(camelizedTemplates);
       })
       .catch(function(err) {

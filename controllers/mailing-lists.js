@@ -13,25 +13,31 @@ let Boom = require('boom');
 module.exports = {
 
   getMailingLists: function (request, reply) {
+    logger.debug('Fetching all mailing lists');
+
     models.MailingList
       .fetchAll({ withRelated: ['members'] })
       .then(function (mailingLists) {
         let camelizedMailingLists =
           mailingLists.toJSON({ omitPivot: true }).map(list => humps.camelizeKeys(list));
-
+        logger.debug(`Fetched ${camelizedMailingLists.length} mailing lists`);
         reply(camelizedMailingLists);
       })
       .catch(function(err) {
-        logger.error('Mailing lists could not be fetched from the database');
+        logger.error('Mailing lists could not be fetched');
         reply(Boom.notFound('Mailing lists not found.'));
       });
   },
 
   getMailingList: function (request, reply) {
+    logger.debug(`Fetching mailing list with id ${request.params.id}`);
+
     new models.MailingList({id: request.params.id})
       .fetch({ withRelated: ['members'], require: true })
       .then(function(mailingList) {
-        reply(humps.camelizeKeys(mailingList.toJSON({ omitPivot: true })));
+        let camelizedMailingList = humps.camelizeKeys(mailingList.toJSON({ omitPivot: true }));
+        logger.debug(`Fetched mailing list:`, camelizedMailingList);
+        reply(camelizedMailingList);
       })
       .catch(function(err) {
         logger.error('Mailing list with id %s was requested but not found', request.params.id);
@@ -40,6 +46,8 @@ module.exports = {
   },
 
   createMailingList: function (request, reply) {
+    logger.debug(`Creating new mailing list from payload data:`, request.payload);
+
     let newMailingList = {
       name: request.payload.name,
       description: request.payload.description,
@@ -56,7 +64,9 @@ module.exports = {
               new models.MailingList({id: mailingList.id})
                 .fetch({ withRelated: ['members'], require: true })
                 .then(function(finalMailingList) {
-                  reply(humps.camelizeKeys(finalMailingList.toJSON({ omitPivot: true })));
+                  let camelizedMailingList = humps.camelizeKeys(finalMailingList.toJSON({ omitPivot: true }));
+                  logger.debug(`Saved new mailing list:`, camelizedMailingList);
+                  reply(camelizedMailingList);
                 })
                 .catch(function(err) {
                   logger.error('Could not fetch the newly created mailing list:', mailingList);
@@ -78,7 +88,7 @@ module.exports = {
           });
     })
     .catch(function(err) {
-      logger.error('New mailing list could not be saved to the database:', newMailingList);
+      logger.error('New mailing list could not be saved:', newMailingList);
 
       reply(Boom.badRequest('Could not create mailing list.'));
     });

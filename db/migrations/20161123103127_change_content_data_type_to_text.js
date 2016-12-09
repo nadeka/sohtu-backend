@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
 }
 
 exports.down = function(knex, Promise) {
-  return knex.schema.table('email_campaigns', function(t){
-        t.dropColumn('content');
-    })
+  return knex.schema
+    .raw("ALTER TABLE email_campaigns ALTER COLUMN content TYPE varchar(255);");
 };
