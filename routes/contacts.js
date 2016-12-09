@@ -2,6 +2,7 @@
 
 let contactsController = require('../controllers/contacts');
 let validators = require('../validators/validators');
+let errorHandlers = require('../config/error-handlers');
 
 // Routes for contacts. Handler functions are in the controllers directory
 module.exports = [{
@@ -22,7 +23,8 @@ module.exports = [{
   config: {
     handler: contactsController.createContact,
     validate: {
-      payload: validators.contact
+      payload: validators.contact,
+      failAction: errorHandlers.payloadValidationErrorHandler
     }
   }
 }];

@@ -7,5 +7,6 @@ let mailingLists = require('./mailing-lists');
 let contacts = require('./contacts');
 let emailCampaigns = require('./email-campaigns');
 let templates = require('./templates');
+let logMessages = require('./log-messages');
 
-module.exports = [].concat(mailingLists, contacts, templates, emailCampaigns);
+module.exports = [].concat(mailingLists, contacts, templates, emailCampaigns, logMessages);

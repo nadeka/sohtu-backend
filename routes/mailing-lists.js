@@ -2,6 +2,7 @@
 
 let mailingListController = require('../controllers/mailing-lists');
 let validators = require('../validators/validators');
+let errorHandlers = require('../config/error-handlers');
 
 // Routes for mailing lists. Handler functions are in the controllers directory
 module.exports = [{
@@ -22,7 +23,8 @@ module.exports = [{
   config: {
     handler: mailingListController.createMailingList,
     validate: {
-      payload: validators.mailingList
+      payload: validators.mailingList,
+      failAction: errorHandlers.payloadValidationErrorHandler
     }
   }
 }];

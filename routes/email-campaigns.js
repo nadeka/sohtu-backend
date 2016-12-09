@@ -2,6 +2,7 @@
 
 let emailCampaignController = require('../controllers/email-campaigns');
 let validators = require('../validators/validators');
+let errorHandlers = require('../config/error-handlers');
 
 // Routes for campaigns. Handler functions are in the controllers directory
 module.exports = [{
@@ -19,7 +20,8 @@ module.exports = [{
   config: {
     handler: emailCampaignController.sendTestCampaign,
     validate: {
-      payload: validators.testEmailCampaign
+      payload: validators.testEmailCampaign,
+      failAction: errorHandlers.payloadValidationErrorHandler
     }
   }
 }];
