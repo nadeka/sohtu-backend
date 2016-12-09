@@ -13,14 +13,14 @@ exports.seed = function(knex, Promise) {
           '<table style="width: 100%;">' +
           '<!-- Header starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div contenteditable="true">' +
           '<h1 style="background-color: #ffb3b3; padding: 1em;">Your header here!</h1>' +
           '</div>' +
           '</tr>' +
           '<!-- Header ends-->' +
           '<!-- Paragraph 1 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Sed posuere interdum sem. Quisque ligula eros ullamcorper quis,lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
@@ -32,7 +32,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Separator line ends -->' +
           '<!-- Paragraph 2 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
@@ -44,7 +44,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Separator line ends -->' +
           '<!-- Paragraph 3 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
@@ -75,14 +75,14 @@ exports.seed = function(knex, Promise) {
           '<table style="width: 100%;">' +
           '<!-- Header starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div contenteditable="true">' +
           '<h1 style="background-color: #ffb3b3; padding: 1em;">Your header here! Template2</h1>' +
           '</div>' +
           '</tr>' +
           '<!-- Header ends-->' +
           '<!-- Paragraph 1 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Sed posuere interdum sem. Quisque ligula eros ullamcorper quis,lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
@@ -94,7 +94,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Separator line ends -->' +
           '<!-- Paragraph 2 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
@@ -124,14 +124,14 @@ exports.seed = function(knex, Promise) {
           '<table style="width: 100%;">' +
           '<!-- Header starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div contenteditable="true">' +
           '<h1 style="background-color: #ffb3b3; padding: 1em;">Your header here!</h1>' +
           '</div>' +
           '</tr>' +
           '<!-- Header ends-->' +
           '<!-- Paragraph 1 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Sed posuere interdum sem. Quisque ligula eros ullamcorper quis,lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
@@ -143,7 +143,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Separator line ends -->' +
           '<!-- Paragraph 2 starts -->' +
           '<tr>' +
-          '<div class="tinymce">' +
+          '<div class="editable">' +
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>' +
           '</div>' +
           '</tr>' +
