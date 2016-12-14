@@ -1,7 +1,7 @@
 'use strict';
 
 var helper = require('sendgrid').mail;
-var sg = require('sendgrid')('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');
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 let models = require('../models/email-campaign');
 let humps = require('humps');
 let logger = require('../services/logger');
@@ -45,7 +45,7 @@ function sendEmailCampaigns(hours) {
 }
 
 function sendEmailCampaign(emailCampaign) {
-    let from_email = new helper.Email('process.env.SENDER@gmail.com');
+    let from_email = new helper.Email(process.env.SENDER);
     let subject = emailCampaign.subject;
     let content = new helper.Content("text/html", emailCampaign.content);
     let schedule = Math.round(new Date(emailCampaign.schedule).getTime() / 1000);
