@@ -194,7 +194,7 @@ exports.seed = function(knex, Promise) {
           '<tr>'+
           '<td width="10"></td>'+
           '<!-- Paragraph 1 starts -->'+
-          '<td style="font-family:'Arial';color: #063c4c">'+
+          '<td style="font-family:Arial;color: #063c4c">'+
           '<div class="editable">'+
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>'+
           '</div>'+
@@ -212,7 +212,7 @@ exports.seed = function(knex, Promise) {
           '<tr>'+
           '<td width="10"></td>'+
           '<!-- Paragraph 2 starts -->'+
-          '<td width="250" style="font-family: 'Arial'; color: #063c4c">'+
+          '<td width="250" style="font-family: Arial; color: #063c4c">'+
           '<div class="editable">'+
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Sed posuere interdum sem. Quisque ligula eros ullamcorper quis,lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>'+
           '</div>'+
@@ -220,7 +220,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Paragraph 2 ends -->'+
           '<td width="50"></td>'+
           '<!-- Paragraph 3 starts -->'+
-          '<td width="250" style="font-family: 'Arial'; color: #063c4c">'+
+          '<td width="250" style="font-family: Arial; color: #063c4c">'+
           '<div class="editable">'+
           '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Sed posuere interdum sem. Quisque ligula eros ullamcorper quis,lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.</p>'+
           '</div>'+
