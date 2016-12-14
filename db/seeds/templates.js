@@ -13,9 +13,11 @@ exports.seed = function(knex, Promise) {
           '<table style="width: 100%;">' +
           '<!-- Header starts -->' +
           '<tr>' +
+          '<h1 style="background-color: #ffb3b3; padding: 1em; text-align: center;">' +
           '<div contenteditable="true">' +
-          '<h1 style="background-color: #ffb3b3; padding: 1em; text-align: center;">Your header here!</h1>' +
+          'Your header here!' +
           '</div>' +
+          '</h1>' +
           '</tr>' +
           '<!-- Header ends-->' +
           '<!-- Paragraph 1 starts -->' +
