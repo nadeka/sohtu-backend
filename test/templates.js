@@ -49,7 +49,7 @@ describe("Templates", function() {
       request.get({uri: url, json: true}, function(error, response, body) {
         let templates = body;
 
-        chai.expect(templates.length).to.equal(3);
+        chai.expect(templates.length).to.equal(4);
         chai.expect(response.statusCode).to.equal(200);
 
         templates.forEach(template => validateTemplate(template));
