@@ -14,7 +14,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Header starts -->' +
           '<tr>' +
           '<div contenteditable="true">' +
-          '<h1 style="background-color: #ffb3b3; padding: 1em;">Your header here!</h1>' +
+          '<h1 style="background-color: #ffb3b3; padding: 1em; text-align: center;">Your header here!</h1>' +
           '</div>' +
           '</tr>' +
           '<!-- Header ends-->' +
@@ -76,7 +76,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Header starts -->' +
           '<tr>' +
           '<div contenteditable="true">' +
-          '<h1 style="background-color: #ffb3b3; padding: 1em;">Your header here! Template2</h1>' +
+          '<h1 style="background-color: #ffb3b3; padding: 1em; text-align: center;">Your header here! Template2</h1>' +
           '</div>' +
           '</tr>' +
           '<!-- Header ends-->' +
@@ -125,7 +125,7 @@ exports.seed = function(knex, Promise) {
           '<!-- Header starts -->' +
           '<tr>' +
           '<div contenteditable="true">' +
-          '<h1 style="background-color: #ffb3b3; padding: 1em;">Your header here!</h1>' +
+          '<h1 style="background-color: #ffb3b3; padding: 1em; text-align: center;">Your header here!</h1>' +
           '</div>' +
           '</tr>' +
           '<!-- Header ends-->' +
