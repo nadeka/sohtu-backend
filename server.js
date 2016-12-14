@@ -7,6 +7,7 @@ const Hapi = require('hapi');
 
 const settings = require('./config/settings');
 const logger = require('./services/logger');
+
 const schedule = require('./config/schedule');
 
 const server = new Hapi.Server();

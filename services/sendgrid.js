@@ -1,5 +1,7 @@
-var helper = require('sendgrid').mail
-var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+'use strict';
+
+var helper = require('sendgrid').mail;
+var sg = require('sendgrid')('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');
 let models = require('../models/email-campaign');
 let humps = require('humps');
 let logger = require('../services/logger');
@@ -43,30 +45,59 @@ function sendEmailCampaigns(hours) {
 }
 
 function sendEmailCampaign(emailCampaign) {
+    let from_email = new helper.Email('process.env.SENDER@gmail.com');
+    let subject = emailCampaign.subject;
+    let content = new helper.Content("text/html", emailCampaign.content);
+    let schedule = Math.round(new Date(emailCampaign.schedule).getTime() / 1000);
+    let mail = createNewMail(from_email, subject, content);
+    //Sendgrid only allows 1000 recipients per API request
+    let personalizations = 0;
+    let recipients = new Set();
     emailCampaign.mailingLists.forEach(function(mailingList) {
         mailingList.members.forEach(function(contact) {
-            from_email = new helper.Email(process.env.SENDER);
-            to_email = new helper.Email(contact.email);
-            subject = emailCampaign.subject;
-            content = new helper.Content("text/html", emailCampaign.content);
-            mail = new helper.Mail(from_email, subject, to_email, content);
-            mail.setSendAt(Math.round(new Date(emailCampaign.schedule).getTime() / 1000));
-
-            let request = sg.emptyRequest({
-                method: 'POST',
-                path: '/v3/mail/send',
-                body: mail.toJSON()
-            });
-
-            sg.API(request)
-              .then(response => {
-
-              })
-              .catch(error => {
-                logger.error('Sendgrid API responded with error %s to request:',
-                  error.response.statusCode, request);
-              });
+            if (recipients.has('contact.email.toLowerCase()')) {
+                return;
+            };
+            recipients.add(contact.email.toLowerCase());
+            let personalization = new helper.Personalization();
+            let to_email = new helper.Email(contact.email);
+            personalization.addTo(to_email);
+            personalization.setSendAt(schedule);
+            mail.addPersonalization(personalization);
+            personalizations++;
+            if (personalizations === 1000) {
+                sendRequest(mail);
+                mail = createNewMail(from_email, subject, content);
+                personalizations = 0;
+            }
         });
+    });
+    if (personalizations > 0) {
+        sendRequest(mail);
+    }
+}
+
+function createNewMail(from_email, subject, content) {
+  let mail = new helper.Mail();
+  mail.setFrom(from_email);
+  mail.setSubject(subject);
+  mail.addContent(content);
+  return mail;
+}
+
+function sendRequest(mail) {
+  let request = sg.emptyRequest({
+      method: 'POST',
+      path: '/v3/mail/send',
+      body: mail.toJSON()
+  });
+  sg.API(request)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      logger.error('Sendgrid API responded with error %s to request:',
+        error.response.statusCode, request);
     });
 }
 
