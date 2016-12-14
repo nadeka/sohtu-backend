@@ -121,7 +121,7 @@ exports.seed = function(knex, Promise) {
         return knex('templates').insert({
           name: 'Template 3',
           html: '<!-- Email content starts-->' +
-          '<table style="width: 100%;">' +
+          '<table style="max-width:600px;">' +
           '<!-- Header starts -->' +
           '<tr>' +
           '<div contenteditable="true">' +
@@ -181,7 +181,7 @@ exports.seed = function(knex, Promise) {
           '</td>'+
           '<td>'+
           '<div contenteditable="true">'+
-          '<h1 style="font-family: Arial; color: #063c4c">Your header here! Template4</h1>'+
+          '<h1 style="font-family: Arial; color: #063c4c; text-align: center;">Your header here! Template4</h1>'+
           '</div>'+
           '</td>'+
           '<td width="40px"></td>'+
