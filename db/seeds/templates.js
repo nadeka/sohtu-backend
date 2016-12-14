@@ -180,9 +180,11 @@ exports.seed = function(knex, Promise) {
           '<td width="40px">'+
           '</td>'+
           '<td>'+
+          '<h1 style="font-family: Arial; color: #063c4c; text-align: center;">'+
           '<div contenteditable="true">'+
-          '<h1 style="font-family: Arial; color: #063c4c; text-align: center;">Your header here! Template4</h1>'+
+          'Your header here! Template4'+
           '</div>'+
+          '</h1>'+
           '</td>'+
           '<td width="40px"></td>'+
           '</tr>'+
