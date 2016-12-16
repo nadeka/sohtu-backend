@@ -27,5 +27,39 @@ module.exports = {
 
         reply(Boom.notFound('Log messages not found.'));
       });
+  },
+
+  createLogMessage: function (request, reply) {
+    logger.debug(`Creating new log message from payload data:`, request.payload);
+
+    let newLogMessage = {
+      level: request.payload.level,
+      msg: request.payload.msg,
+      meta: request.payload.meta,
+      created_at: new Date(),
+      updated_at: new Date()
+    };
+
+    new models.LogMessage(newLogMessage)
+      .save()
+      .then(function(logMessage) {
+          new models.LogMessage({id: logMessage.id})
+            .fetch({ require: true })
+            .then(function(logMessage) {
+              let camelizedLogMessage = humps.camelizeKeys(logMessage.toJSON({ omitPivot: true }));
+              logger.debug(`Saved new log message:`, camelizedLogMessage);
+              reply(camelizedLogMessage);
+            })
+            .catch(function(err) {
+              logger.error('Could not fetch the newly created log message:', logMessage);
+
+              reply(Boom.notFound("Could not fetch created log message."));
+            });
+        })
+      .catch(function(err) {
+        logger.error('New log message could not be saved:', newLogMessage);
+
+        reply(Boom.badRequest('Could not create log message.'));
+      });
   }
 };

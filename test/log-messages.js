@@ -110,6 +110,58 @@ describe('Log messages', function() {
       });
     });
   });
+
+  describe("POST /log-messages", function() {
+    let url = "http://localhost:8001/log-messages";
+
+    it('creates new log message and returns status 200', function(done) {
+      let validPostData = {
+        level: 'error',
+        msg: 'Error occurred',
+        meta: {origin: 'front-end'}
+      };
+
+      request.post({uri: url, body: validPostData, json: true}, function(error, response, body) {
+        let logMessage = body;
+        validateLogMessage(logMessage);
+
+        chai.expect(logMessage.level).to.equal('error');
+        chai.expect(logMessage.msg).to.equal('Error occurred');
+        chai.expect(logMessage.meta.origin).to.equal('front-end');
+        chai.expect(response.statusCode).to.equal(200);
+
+        request.get({uri: url, json: true}, function(error, response, body) {
+          let logMessages = body;
+
+          chai.expect(logMessages.length).to.equal(1);
+
+          logMessages.forEach(logMessage => validateLogMessage(logMessage));
+
+          done();
+        });
+      });
+    });
+
+    it('does not create new log message and returns status 400 when msg field is missing', function(done) {
+      let invalidPostData = {
+        level: 'error',
+        meta: {origin: 'front-end'}
+      };
+
+      request.post({uri: url, body: invalidPostData, json: true}, function(error, response, body) {
+        chai.expect(body.statusCode).to.equal(400);
+        chai.expect(body.error).to.equal('Bad Request');
+
+        request.get({uri: url, json: true}, function(error, response, body) {
+          let logMessages = body;
+
+          chai.expect(logMessages.length).to.equal(0);
+
+          done();
+        });
+      });
+    });
+  });
 });
 
 function validateLogMessage(logMessage) {
@@ -117,4 +169,5 @@ function validateLogMessage(logMessage) {
   chai.expect(logMessage.level).to.be.defined;
   chai.expect(logMessage.msg).to.be.defined;
   chai.expect(logMessage.meta).to.be.defined;
+  chai.expect(logMessage.meta).to.be.an('object');
 }

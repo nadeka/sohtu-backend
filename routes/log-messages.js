@@ -11,4 +11,14 @@ module.exports = [{
   config: {
     handler: logMessageController.getLogMessages
   }
+}, {
+  method: 'POST',
+  path: '/log-messages',
+  config: {
+    handler: logMessageController.createLogMessage,
+    validate: {
+      payload: validators.logMessage,
+      failAction: errorHandlers.payloadValidationErrorHandler
+    }
+  }
 }];
