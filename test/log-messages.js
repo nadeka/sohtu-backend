@@ -122,13 +122,8 @@ describe('Log messages', function() {
       };
 
       request.post({uri: url, body: validPostData, json: true}, function(error, response, body) {
-        let logMessage = body;
-        validateLogMessage(logMessage);
-
-        chai.expect(logMessage.level).to.equal('error');
-        chai.expect(logMessage.msg).to.equal('Error occurred');
-        chai.expect(logMessage.meta.origin).to.equal('front-end');
         chai.expect(response.statusCode).to.equal(200);
+        chai.expect(response.body).to.equal('Saved new log message');
 
         request.get({uri: url, json: true}, function(error, response, body) {
           let logMessages = body;
@@ -154,8 +149,6 @@ describe('Log messages', function() {
 
         request.get({uri: url, json: true}, function(error, response, body) {
           let logMessages = body;
-
-          console.log(logMessages);
 
           chai.expect(logMessages.length).to.equal(1);
 
