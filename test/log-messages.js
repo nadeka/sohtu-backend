@@ -155,7 +155,9 @@ describe('Log messages', function() {
         request.get({uri: url, json: true}, function(error, response, body) {
           let logMessages = body;
 
-          chai.expect(logMessages.length).to.equal(0);
+          console.log(logMessages);
+
+          chai.expect(logMessages.length).to.equal(1);
 
           done();
         });
