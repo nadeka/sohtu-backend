@@ -25,11 +25,12 @@ module.exports = {
     testCampaign.mailingLists.push({
       members: []
     });
-    request.payload.emailAddresses.forEach(function(emailAddress) {
+   /* request.payload.emailAddresses.forEach(function(emailAddress) {  */
         testCampaign.mailingLists[0].members.push({
-          email: emailAddress
+          email: request.payload.emailAddresses
         })
-    });
+  /*  }); */
+
     sendgrid.sendEmailCampaign(testCampaign);
     logger.debug(`Sent test email campaign to Sendgrid`);
     reply();

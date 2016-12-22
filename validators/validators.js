@@ -30,7 +30,7 @@ module.exports = {
   }),
   testEmailCampaign: Joi.object({
     subject: Joi.string().max(300).allow([null, ""]).required(),
-    emailAddresses: Joi.array().required(),
+    emailAddresses: Joi.string().required(), //*this was Joi.array().required()
     content: Joi.string().max(100000).allow([null, ""]).required()
   }),
   logMessage: Joi.object({
